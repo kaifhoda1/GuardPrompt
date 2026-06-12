@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.proxy_routes import router as proxy_router
 from config import APP_NAME, APP_VERSION
+from storage.database import init_db
 
 app = FastAPI(
     title=APP_NAME,
@@ -13,7 +14,6 @@ app = FastAPI(
     description="Real-time prompt injection detection middleware"
 )
 
-# CORS — allows the React frontend to talk to this API
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,7 +21,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register routes
+@app.on_event("startup")
+def startup():
+    init_db()
+
 app.include_router(proxy_router, prefix="/api/v1")
 
 @app.get("/")
