@@ -143,14 +143,14 @@ def analyze(text: str) -> dict:
     has_b64 = _has_base64_block(text)
     flags["has_base64"] = has_b64
     if has_b64:
-        score += 50
+        score += 85
         reasons.append("Long base64-encoded block detected")
 
     # Check 5 - Hex encoding
     has_hex = _has_hex_block(text)
     flags["has_hex"] = has_hex
     if has_hex:
-        score += 50
+        score += 85
         reasons.append("Long hex-encoded block detected")
 
     # Check 6 - Language switching
