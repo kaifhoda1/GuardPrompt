@@ -1,0 +1,105 @@
+{
+  "categories": {
+    "direct_injection": {
+      "description": "User tries to override or hijack the AI instructions",
+      "severity": "high",
+      "patterns": [
+        "ignore\\s+(all\\s+)?(previous|above|prior|your)?\\s*(instructions?|prompts?|rules?|constraints?|context)",
+        "disregard\\s+(all\\s+)?(previous|above|prior)?\\s*(instructions?|prompts?|rules?|constraints?)",
+        "forget\\s+(all|everything|prior|previous|above|your instructions)",
+        "do not follow\\s+(your|the)?\\s*(instructions?|rules?|guidelines?|constraints?)",
+        "override\\s+(your|the|all)?\\s*(instructions?|rules?|settings?|constraints?|system)",
+        "you are now\\s+(in\\s+)?([a-z]+\\s+)?(mode|context|state)",
+        "new\\s+(prime|master|system|primary)?\\s*directives?\\s*[:;]",
+        "your\\s+(new|real|true|actual)?\\s*(instructions?|rules?|purpose|goal|mission|task)\\s*[:;]?\\s*(are|is)?",
+        "from now on you (must|will|should|shall)",
+        "act as if you have no (restrictions?|rules?|filters?|limits?)",
+        "pretend that you have no (restrictions?|rules?|filters?|limits?)"
+      ]
+    },
+    "jailbreak": {
+      "description": "Attempts to make the AI bypass its safety guidelines",
+      "severity": "high",
+      "patterns": [
+        "dan\\s*(mode|prompt|jailbreak)?",
+        "do anything now",
+        "jailbreak",
+        "developer mode",
+        "god mode",
+        "unrestricted mode",
+        "no restrictions?\\s*(mode|enabled|active|on)",
+        "bypass\\s+(your|all|the)?\\s*(safety|filter|restriction|guideline|rule|limit)",
+        "without\\s+(any|your|the)?\\s*(safety|filter|restriction|guideline|rule|limit|constraint)",
+        "disable\\s+(your|the|all)?\\s*(safety|filter|restriction|guideline|rule|limit|constraint)",
+        "you have been (freed|unlocked|unchained|liberated|unfiltered|uncensored)",
+        "your (true|real|inner|actual) (self|nature|form|mode|personality)",
+        "(evil|dark|shadow|unfiltered|uncensored|raw|base) (mode|version|form|self|personality|ai|assistant)",
+        "simulate a (world|reality|scenario|universe) where (you have no|there are no|without) (rules?|restrictions?|limits?|ethics?|guidelines?)"
+      ]
+    },
+    "role_manipulation": {
+      "description": "Tries to redefine who or what the AI is",
+      "severity": "high",
+      "patterns": [
+        "you are (no longer|not) an? (ai|assistant|language model|llm|chatbot|bot)",
+        "you are (now|actually|really) an? (human|person|entity|character|agent|hacker|criminal|villain)",
+        "roleplay as an? (human|person|character|hacker|criminal|villain|ai with no rules)",
+        "play (the role|a role|the character|a character) of an? (human|person|hacker|criminal|villain)",
+        "pretend (you are|to be) an? (human|person|hacker|criminal|villain|unrestricted)",
+        "act (as|like) an? (human|person|hacker|criminal|villain|unrestricted ai|different ai)",
+        "character (named|called) .{0,30} (who has no|without any|with no) (rules?|restrictions?|limits?|ethics?)",
+        "stay in character (no matter|regardless|even if|even when)"
+      ]
+    },
+    "data_exfiltration": {
+      "description": "Trying to extract system prompts, config, or sensitive internal data",
+      "severity": "high",
+      "patterns": [
+        "reveal\\s+(your|the|all)?\\s*(system|initial|original|hidden|secret|internal|base|full)\\s*(prompt|instructions?|rules?|context|configuration|settings?)",
+        "show\\s+me\\s+(your|the|all)?\\s*(system|initial|original|hidden|secret|internal|base|full)\\s*(prompt|instructions?|rules?|context|configuration|settings?)",
+        "print\\s+(your|the|all)?\\s*(system|initial|original|hidden|secret|internal|base|full)\\s*(prompt|instructions?|rules?|context|configuration|settings?)",
+        "repeat (everything|all|the text|what) (above|before|prior|you were given|you were told)",
+        "what (are|were|is) (your|the)? (system|initial|original|hidden|secret|internal) (prompt|instructions?|rules?|context|configuration)",
+        "output (everything|all content|the full text|your instructions?) (above|before|prior|from your context|from your system)",
+        "(list|display|dump|export|extract|copy) (all|your|the)? (system|internal|hidden|secret|base)? (prompt|instructions?|rules?|data|context|configuration|settings?)",
+        "translate (the above|everything above|all above|your instructions?) (to|into) [a-z]+"
+      ]
+    },
+    "indirect_injection": {
+      "description": "Injection hidden inside documents or external content",
+      "severity": "high",
+      "patterns": [
+        "<!--.{0,100}(instruction|inject|override|ignore)-->",
+        "\\[\\[.{0,100}(inject|override|instruction|prompt)\\]\\]",
+        "<(system|instruction|prompt|directive|command|override)>",
+        "\\{\\{.{0,100}(inject|override|instruction|prompt)\\}\\}",
+        "---+\\s*(system|instruction|prompt|override|directive)\\s*---+",
+        "#+\\s*(system|instruction|prompt|override|directive|command)",
+        "\\[system\\]|\\[instruction\\]|\\[prompt\\]|\\[override\\]"
+      ]
+    },
+    "encoding_evasion": {
+      "description": "Attempts to hide injection using encoding or obfuscation",
+      "severity": "medium",
+      "patterns": [
+        "base64[:\\s]+[A-Za-z0-9+/]{20,}={0,2}",
+        "decode (this|the following|it)[:\\s]",
+        "\\\\u[0-9a-fA-F]{4}(\\\\u[0-9a-fA-F]{4}){5,}",
+        "hex[:\\s]+([0-9a-fA-F]{2}[\\s:]?){10,}",
+        "rot13",
+        "caesar cipher",
+        "the following (encoded|encrypted|obfuscated|hidden) (text|string|message|instruction)"
+      ]
+    }
+  },
+  "thresholds": {
+    "block": 80,
+    "flag": 40,
+    "pass": 0
+  },
+  "severity_scores": {
+    "high": 85,
+    "medium": 55,
+    "low": 30
+  }
+}
